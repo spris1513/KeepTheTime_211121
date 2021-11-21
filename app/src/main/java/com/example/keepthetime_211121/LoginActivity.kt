@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.databinding.ActivityLoginBinding
 import com.example.keepthetime_211121.datas.BasicResponse
+import com.example.keepthetime_211121.utils.ContextUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,8 +47,8 @@ class LoginActivity : BaseActivity() {
 //                    최종 성공 or 실패 여부에 따라 별도 코딩이 필요
                     if( response.isSuccessful) {
                         val basicResponse = response.body()!!
-                        Log.d("로그인 성공", basicResponse.message)
-                        Log.d("사용자토큰", basicResponse.data.token)
+
+                        ContextUtil.setToken(mContext,basicResponse.data.token)
 
                         Toast.makeText(mContext, "${basicResponse.data.user.nickname}님 환영합니다!", Toast.LENGTH_SHORT).show()
                     }
