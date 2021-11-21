@@ -15,9 +15,9 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager
 import java.security.MessageDigest
+import java.util.*
 
 class LoginActivity : BaseActivity() {
 
@@ -36,6 +36,9 @@ class LoginActivity : BaseActivity() {
     override fun setupEvents() {
 
         binding.btnFacebookLogin.setOnClickListener {
+
+//            소셜 로그인 로직 체험
+            LoginManager.getInstance().logInWithPublishPermissions(this, Arrays.asList("public_profile"))
 
 
         }
