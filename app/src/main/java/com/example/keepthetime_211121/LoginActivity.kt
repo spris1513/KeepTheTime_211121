@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.databinding.ActivityLoginBinding
 import com.example.keepthetime_211121.datas.BasicResponse
 import com.example.keepthetime_211121.utils.ContextUtil
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,6 +59,14 @@ class LoginActivity : BaseActivity() {
 
                         finish() // 로그인화면 종료
 
+                    }
+                    else {
+//                        로그인 결과 실패. > 실패 사유 (message) 토스트
+                        val errorBodyStr = response.errorBody()!!.string()
+                        val jsonObj = JSONObject(errorBodyStr)
+
+                        val message = jsonObj.getString("message")
+                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                     }
                 }
 
