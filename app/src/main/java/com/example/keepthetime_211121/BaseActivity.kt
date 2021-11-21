@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-abstract class BasaActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     lateinit var mContext : Context
 

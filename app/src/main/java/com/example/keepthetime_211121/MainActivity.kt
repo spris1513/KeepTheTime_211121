@@ -1,11 +1,10 @@
 package com.example.keepthetime_211121
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.databinding.ActivityMainBinding
 
-class MainActivity : BasaActivity() {
+class MainActivity : BaseActivity() {
 
     lateinit var binding : ActivityMainBinding
 
