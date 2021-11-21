@@ -14,6 +14,7 @@ class MyProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_schedule_list,container,false)onCreateView(inflater, container, savedInstanceState)
+        return inflater.inflate(R.layout.fragment_my_profile,container,false)
+        onCreateView(inflater, container, savedInstanceState)
     }
 }
