@@ -12,6 +12,8 @@ class UserData(
     var readyMinute:Int,
     @SerializedName("nick_name")
     var nickname : String,
+    @SerializedName("profile_img")
+    var profileimg : String
 
 
 

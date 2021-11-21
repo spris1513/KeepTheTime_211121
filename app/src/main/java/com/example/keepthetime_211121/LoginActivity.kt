@@ -5,21 +5,19 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.example.keepthetime_211121.api.ServerAPI
-import com.example.keepthetime_211121.api.ServerAPIService
-import com.example.keepthetime_211121.databinding.ActivityMainBinding
+import com.example.keepthetime_211121.databinding.ActivityLoginBinding
 import com.example.keepthetime_211121.datas.BasicResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : BaseActivity() {
+class LoginActivity : BaseActivity() {
 
-    lateinit var binding : ActivityMainBinding
+    lateinit var binding : ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
         setupEvents()
         setValues()
     }
