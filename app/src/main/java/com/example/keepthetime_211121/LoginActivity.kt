@@ -51,6 +51,13 @@ class LoginActivity : BaseActivity() {
                         ContextUtil.setToken(mContext,basicResponse.data.token)
 
                         Toast.makeText(mContext, "${basicResponse.data.user.nickname}님 환영합니다!", Toast.LENGTH_SHORT).show()
+
+//                        메인화면 이동
+                        val myIntent = Intent(mContext,MainActivity::class.java)
+                        startActivity(myIntent)
+
+                        finish() // 로그인화면 종료
+
                     }
                 }
 
