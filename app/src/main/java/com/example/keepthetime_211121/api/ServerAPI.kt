@@ -1,5 +1,8 @@
 package com.example.keepthetime_211121.api
 
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+
 class ServerAPI {
 
 //    통신을 담당하는 객체 - 레트로핏 객체 리턴 함수 작성.
@@ -26,9 +29,10 @@ class ServerAPI {
 
 //                 비어있는 retrofit 객체 생성
 
-                retrofit = Retrofit.builder()
+                retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(myClient)
+                    .addConverterFactory(Gson)
                     .build()
 
             }
