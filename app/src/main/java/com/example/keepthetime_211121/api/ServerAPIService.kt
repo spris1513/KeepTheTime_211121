@@ -27,11 +27,19 @@ interface ServerAPIService {
         @Field("nick_name") nickname:String
     ) : Call<BasicResponse>
 
+    @GET("/user/check")
+    fun getRequestDuplCheck (
+        @Query("type") type : String,
+        @Query("value") value : String
+    ) : Call<BasicResponse>
+
 //    연습 - 내 정보 가져오기 API
 
     @GET("/user")
     fun getRequestMyInfo(
         @Header("X-Http-Token") token : String
     ) : Call<BasicResponse>
+
+
 
 }
