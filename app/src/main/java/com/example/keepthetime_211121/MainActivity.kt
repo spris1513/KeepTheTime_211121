@@ -2,6 +2,8 @@ package com.example.keepthetime_211121
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import com.example.keepthetime_211121.api.ServerAPI
+import com.example.keepthetime_211121.api.ServerAPIService
 import com.example.keepthetime_211121.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {
@@ -24,6 +26,8 @@ class MainActivity : BaseActivity() {
             val inputPassword = binding.edtPassword.text.toString()
 
 //            2. 서버에 로그인 API 호출 > retrofit 사용
+
+
         }
 
     }
