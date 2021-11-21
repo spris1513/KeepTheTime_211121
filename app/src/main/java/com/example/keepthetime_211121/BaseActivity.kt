@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.keepthetime_211121.api.ServerAPI
 import com.example.keepthetime_211121.api.ServerAPIService
+import retrofit2.Retrofit
 
 abstract class BaseActivity : AppCompatActivity() {
 
