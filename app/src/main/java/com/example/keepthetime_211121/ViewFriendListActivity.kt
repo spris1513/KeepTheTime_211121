@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.adapters.MyFridensAdapter
+import com.example.keepthetime_211121.adapters.MyFriendsRecyclerAdapter
 import com.example.keepthetime_211121.databinding.ActivityViewFriendListBinding
 import com.example.keepthetime_211121.datas.BasicResponse
 import com.example.keepthetime_211121.datas.UserData
@@ -17,7 +18,7 @@ class ViewFriendListActivity : BaseActivity() {
     lateinit var binding : ActivityViewFriendListBinding
 
     val mMyFriendsList = ArrayList<UserData>()
-
+    lateinit var mMyFriendsAdapter : MyFriendsRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +35,10 @@ class ViewFriendListActivity : BaseActivity() {
 
         getMyFriendsFromServer()
 
+        mMyFriendsAdapter = MyFriendsRecyclerAdapter(mContext,mMyFriendsList)
+        binding.myFriendsRecyclerView.adapter = mMyFriendsAdapter
+
+
     }
 
     fun getMyFriendsFromServer(){
@@ -43,6 +48,7 @@ class ViewFriendListActivity : BaseActivity() {
 
                     val br = response.body()!!
                     mMyFriendsList.addAll(br.data.friends)
+                    mMyFriendsAdapter.notifyDataSetChanged()
 
                 }
             }
