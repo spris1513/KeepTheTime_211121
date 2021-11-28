@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.databinding.ActivityLoginBinding
 import com.example.keepthetime_211121.datas.BasicResponse
 import com.example.keepthetime_211121.utils.ContextUtil
+import com.example.keepthetime_211121.utils.GlobalData
 import com.facebook.*
 import org.json.JSONObject
 import retrofit2.Call
@@ -64,6 +65,9 @@ class LoginActivity : BaseActivity() {
                             val br = response.body()!!
                             Log.d("앱서버토큰",br.data.token)
                             ContextUtil.setToken(mContext,br.data.token)
+
+//                            로그인 한 사람 GlobalData
+                            GlobalData.loginUser = br.data.user
 
                             val myIntent = Intent(mContext,MainActivity::class.java)
                             startActivity(myIntent)
@@ -155,6 +159,10 @@ class LoginActivity : BaseActivity() {
                                         Log.d("앱서버토큰",br.data.token)
                                         ContextUtil.setToken(mContext,br.data.token)
 
+                                        //                            로그인 한 사람 GlobalData
+                                        GlobalData.loginUser = br.data.user
+
+
                                         val myIntent = Intent(mContext,MainActivity::class.java)
                                         startActivity(myIntent)
                                         finish()
@@ -220,6 +228,9 @@ class LoginActivity : BaseActivity() {
                         val basicResponse = response.body()!!
 
                         ContextUtil.setToken(mContext,basicResponse.data.token)
+
+                        //                            로그인 한 사람 GlobalData
+                        GlobalData.loginUser = basicResponse.data.user
 
                         Toast.makeText(mContext, "${basicResponse.data.user.nickname}님 환영합니다!", Toast.LENGTH_SHORT).show()
 
