@@ -29,4 +29,3 @@ class MyFriendsRecyclerAdapter(val mContext : Context , val mList : ArrayList<Us
 
     }
 
-}
