@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.keepthetime_211121.adapters.MyFridensAdapter
 import com.example.keepthetime_211121.adapters.MyFriendsRecyclerAdapter
+import com.example.keepthetime_211121.adapters.RequestedFriendsRecyclerAdapter
 import com.example.keepthetime_211121.databinding.ActivityViewFriendListBinding
 import com.example.keepthetime_211121.datas.BasicResponse
 import com.example.keepthetime_211121.datas.UserData
@@ -20,7 +21,8 @@ class ViewFriendListActivity : BaseActivity() {
     lateinit var binding : ActivityViewFriendListBinding
 
     val mMyFriendsList = ArrayList<UserData>()
-    lateinit var mMyFriendsAdapter : MyFriendsRecyclerAdapter
+//    lateinit var mMyFriendsAdapter : MyFriendsRecyclerAdapter
+    lateinit var mRequestedFriendAdapter : RequestedFriendsRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +48,9 @@ class ViewFriendListActivity : BaseActivity() {
 
         getMyFriendsFromServer()
 
-        mMyFriendsAdapter = MyFriendsRecyclerAdapter(mContext,mMyFriendsList)
-        binding.myFriendsRecyclerView.adapter = mMyFriendsAdapter
+//        mMyFriendsAdapter = MyFriendsRecyclerAdapter(mContext,mMyFriendsList)
+        mRequestedFriendAdapter = RequestedFriendsRecyclerAdapter(mContext,mMyFriendsList)
+        binding.myFriendsRecyclerView.adapter = mRequestedFriendAdapter
 //        여러 형태로 목록 배치 가능 > 어떤 형태로 보여줄건지? 리싸이클러뷰에 세팅이 필요함
         binding.myFriendsRecyclerView.layoutManager = LinearLayoutManager(mContext)
 
@@ -55,13 +58,13 @@ class ViewFriendListActivity : BaseActivity() {
     }
 
     fun getMyFriendsFromServer(){
-        apiService.getRequestMyFriends("my").enqueue(object :Callback<BasicResponse>{
+        apiService.getRequestMyFriends("requested").enqueue(object :Callback<BasicResponse>{
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
                 if(response.isSuccessful){
 
                     val br = response.body()!!
                     mMyFriendsList.addAll(br.data.friends)
-                    mMyFriendsAdapter.notifyDataSetChanged()
+                    mRequestedFriendAdapter.notifyDataSetChanged()
 
                 }
             }
