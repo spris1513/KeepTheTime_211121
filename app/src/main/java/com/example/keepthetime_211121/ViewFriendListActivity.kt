@@ -18,7 +18,7 @@ class ViewFriendListActivity : BaseActivity() {
 
     val mMyFriendList = ArrayList<UserData>()
 
-    lateinit var mFriendAdapter
+    lateinit var mFriendAdapter : MyFridensAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
