@@ -17,6 +17,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.user.UserApiClient
 import java.security.MessageDigest
 import java.util.*
 
@@ -34,11 +36,46 @@ class LoginActivity : BaseActivity() {
         setValues()
     }
 
+    fun getKakaoUserInfo(token:OAuthToken){
+
+//        실제로 내 정보를 요청하는 함수
+
+    }
+
     override fun setupEvents() {
 
         binding.btnKakaotalkLogin.setOnClickListener {
 
 //            카카오 로그인처리
+
+//            카톡 앱이 깔려 있는지?
+            if(UserApiClient.instance.isKakaoTalkLoginAvailable(mContext)){
+
+//                true 카톡앱이 설치됨
+                UserApiClient.instance.loginWithKakaoTalk(mContext){ token, error ->
+
+//                    AccessToken > Token : 로그인 한 삳용자의 고유 카톡 토큰값 > 본인 정보 요청
+                    if (error != null){
+                        Toast.makeText(mContext, "카톡 로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        return@loginWithKakaoTalk
+                    }
+                    getKakaoUserInfo(token!!)
+                }
+
+            }
+            else{
+
+//                카톡 앱 미설치 > 카카오계정으로 로그인
+                UserApiClient.instance.loginWithKakaoAccount(mContext){token, error ->
+                    if (error != null){
+                        Toast.makeText(mContext, "카톡 로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        return@loginWithKakaoAccount
+                    }
+                    getKakaoUserInfo(token!!)
+
+                }
+
+            }
 
         }
 
