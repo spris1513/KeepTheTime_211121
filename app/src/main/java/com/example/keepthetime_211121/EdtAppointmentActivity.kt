@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.databinding.ActivityEdtAppointmentBinding
+import com.example.keepthetime_211121.datas.BasicResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class EdtAppointmentActivity : BaseActivity() {
 
@@ -17,6 +21,30 @@ class EdtAppointmentActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.btnOk.setOnClickListener {
+
+            val inputTitle = binding.edtTitle.text.toString()
+            val inputDateTime = binding.edtDataTime.text.toString()
+            val inputPlace = binding.edtPlace.text.toString()
+            val inputLat = binding.edtLatitude.text.toString().toDouble()
+            val inputLng = binding.edtLongitude.text.toString().toDouble()
+
+            apiService.postRequestAppointment(inputTitle,inputDateTime,inputPlace,inputLat,inputLng).enqueue(object :Callback<BasicResponse>{
+                override fun onResponse(
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>
+                ) {
+
+                }
+
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                }
+
+            })
+
+        }
 
     }
 
