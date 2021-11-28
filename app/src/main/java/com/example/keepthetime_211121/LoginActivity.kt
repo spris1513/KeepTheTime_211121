@@ -60,6 +60,16 @@ class LoginActivity : BaseActivity() {
                         call: Call<BasicResponse>,
                         response: Response<BasicResponse>
                     ) {
+                        if(response.isSuccessful){
+                            val br = response.body()!!
+                            Log.d("앱서버토큰",br.data.token)
+                            ContextUtil.setToken(mContext,br.data.token)
+
+                            val myIntent = Intent(mContext,MainActivity::class.java)
+                            startActivity(myIntent)
+                            finish()
+
+                        }
 
                     }
 
@@ -140,6 +150,18 @@ class LoginActivity : BaseActivity() {
                                     call: Call<BasicResponse>,
                                     response: Response<BasicResponse>
                                 ) {
+                                    if(response.isSuccessful){
+                                        val br = response.body()!!
+                                        Log.d("앱서버토큰",br.data.token)
+                                        ContextUtil.setToken(mContext,br.data.token)
+
+                                        val myIntent = Intent(mContext,MainActivity::class.java)
+                                        startActivity(myIntent)
+                                        finish()
+
+                                    }
+
+
 
                                 }
 
