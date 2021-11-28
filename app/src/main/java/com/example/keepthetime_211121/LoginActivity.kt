@@ -36,6 +36,12 @@ class LoginActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.btnKakaotalkLogin.setOnClickListener {
+
+//            카카오 로그인처리
+
+        }
+
         binding.btnFacebookLogin.setOnClickListener {
 
 //            소셜 로그인 로직 체험
