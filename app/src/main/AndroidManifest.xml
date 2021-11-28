@@ -14,6 +14,9 @@
         android:theme="@style/Theme.KeepTheTime_211121"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".EdtAppointmentActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddFriendActivity"
             android:exported="false" />
         <activity
@@ -37,7 +40,7 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
