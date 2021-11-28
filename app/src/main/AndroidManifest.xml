@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KeepTheTime_211121"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar"
