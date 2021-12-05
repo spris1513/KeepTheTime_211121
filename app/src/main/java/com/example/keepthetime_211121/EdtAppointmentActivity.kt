@@ -214,6 +214,14 @@ class EdtAppointmentActivity : BaseActivity() {
             marker.map = naverMap
 
             marker.icon = OverlayImage.fromResource(R.drawable.marker_map_icon_small)
+            
+//            네이버 지도 클릭 이벤트 달아보기
+            
+            naverMap.setOnMapClickListener { point, latLng ->
+
+                Toast.makeText(mContext, "위도${latLng.latitude}, 경도${latLng.longitude}", Toast.LENGTH_SHORT).show()
+                
+            }
 
 
         }
