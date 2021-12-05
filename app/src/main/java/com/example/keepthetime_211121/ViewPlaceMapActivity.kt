@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.databinding.ActivityViewPlaceMapBinding
+import com.example.keepthetime_211121.datas.ScheduleData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
@@ -11,6 +12,8 @@ import com.naver.maps.map.overlay.Marker
 class ViewPlaceMapActivity : BaseActivity() {
 
     lateinit var binding : ActivityViewPlaceMapBinding
+
+    lateinit var mScheduleData : ScheduleData
 
     var mSelectedLatLng : LatLng? = null
     var mSelectedMarker : Marker? = null
@@ -28,6 +31,7 @@ class ViewPlaceMapActivity : BaseActivity() {
     }
 
     override fun setValues() {
+        mScheduleData = intent.getSerializableExtra("schedule") as ScheduleData
 
 //        0. 프로젝트에 네이버지도 설치(완료)
 
