@@ -43,11 +43,22 @@ class ViewPlaceMapActivity : BaseActivity() {
 
             val naverMap = it
 
+//        3. 카메라 이동 / 마커 추가
 
+//            위치(좌표) 데이터 객체
+
+            val coord = LatLng( mScheduleData.latitude,mScheduleData.longitude )
+
+            val cameraUpdate = CameraUpdate.scrollTo(coord)
+            naverMap.moveCamera(cameraUpdate)
+
+            val marker = Marker()
+            marker.position = coord
+            marker.map = naverMap
 
         }
 
-//        3. 카메라 이동 / 마커 추가
+
     }
     override fun onStart() {
         super.onStart()
