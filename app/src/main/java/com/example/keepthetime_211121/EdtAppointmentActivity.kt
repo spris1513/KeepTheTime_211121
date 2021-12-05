@@ -28,6 +28,14 @@ class EdtAppointmentActivity : BaseActivity() {
 
     val mSelectedDateTime = Calendar.getInstance()   // 기본값 : 현재 일시 기록
 
+//    약속을 잡을 위치를 저장할 변수(네이버 - LatLng)
+//    그 위치를 보여줄 마커(네이버 - Marker)
+//    처음 화면이 나타날때는, 아직 선택 안한상태 > 처음엔 위치, 마커 모두 아직 없는상태(초기값 - null)
+
+    var mSelectedLatLng : LatLng? = null
+    var mSelectedMarker : Marker? = null
+
+
     lateinit var binding : ActivityEdtAppointmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -204,10 +212,15 @@ class EdtAppointmentActivity : BaseActivity() {
                 val cameraUpdate = CameraUpdate.scrollTo(latLng)
                 naverMap.moveCamera(cameraUpdate)
 
-                val marker = Marker()
-                marker.position = latLng
-                marker.map = naverMap
+//                선택한 위치를 멤버변수에 담아두자.
+                mSelectedLatLng = latLng
 
+//                선택한 위치를 보여 줄 마커도(만들어진게 없다면 새로) 생성.
+                if(mSelectedMarker == null){
+                    mSelectedMarker = Marker()
+                }
+                mSelectedMarker!!.position = latLng
+                mSelectedMarker!!.map = naverMap
             }
 
 
