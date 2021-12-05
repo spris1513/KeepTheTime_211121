@@ -2,6 +2,7 @@ package com.example.keepthetime_211121
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.graphics.Camera
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,10 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.databinding.ActivityEdtAppointmentBinding
 import com.example.keepthetime_211121.datas.BasicResponse
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -190,6 +195,25 @@ class EdtAppointmentActivity : BaseActivity() {
 
 //            로딩이 끝난 네이버 맵 객체(인스턴스가) > it 변수에 담겨있다.
             val naverMap = it
+
+//            예시. 카메라를 본인 집근처로 이동
+
+//            위경도 정보 > 카메라 이동 명령을 변수에 저장만
+
+            val latLng = LatLng(37.565041484193, 127.07206928315351)
+
+            val cameraUpdate = CameraUpdate.scrollTo(latLng)
+
+            naverMap.moveCamera(cameraUpdate)
+
+
+//            마커를 본인 집 근처 찍어보기기
+
+            val marker = Marker()
+            marker.position = latLng
+            marker.map = naverMap
+
+            marker.icon = OverlayImage.fromResource(R.drawable.marker_map_icon_small)
 
 
         }
