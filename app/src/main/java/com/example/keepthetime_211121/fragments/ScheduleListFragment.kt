@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.keepthetime_211121.EdtAppointmentActivity
 import com.example.keepthetime_211121.R
+import com.example.keepthetime_211121.adapters.ScheduleRecyclerAdapter
 import com.example.keepthetime_211121.databinding.FragmentScheduleListBinding
 import com.example.keepthetime_211121.datas.BasicResponse
 import com.example.keepthetime_211121.datas.ScheduleData
@@ -21,6 +23,7 @@ class ScheduleListFragment : BaseFragment() {
     lateinit var binding : FragmentScheduleListBinding
 
     val mScheduleList = ArrayList<ScheduleData>()
+    lateinit var mScheduleAdapter : ScheduleRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +51,10 @@ class ScheduleListFragment : BaseFragment() {
 
     override fun setValues() {
         getScheduleLitFromServer()
+
+        mScheduleAdapter = ScheduleRecyclerAdapter(mContext,mScheduleList)
+        binding.appointmentRecyclerView.adapter = mScheduleAdapter
+        binding.appointmentRecyclerView.layoutManager = LinearLayoutManager(mContext)
     }
 
     fun getScheduleLitFromServer(){
@@ -59,6 +66,8 @@ class ScheduleListFragment : BaseFragment() {
 
                     mScheduleList.clear()
                     mScheduleList.addAll(br.data.appointments)
+
+                    mScheduleAdapter.notifyDataSetChanged()
                 }
             }
 

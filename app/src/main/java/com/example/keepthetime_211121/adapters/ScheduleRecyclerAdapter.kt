@@ -27,6 +27,5 @@ class ScheduleRecyclerAdapter(val mContext : Context,val mList : List<ScheduleDa
 
     override fun getItemCount() = mList.size
 
-    }
-
 }
+
