@@ -67,11 +67,10 @@
             android:layout_height="wrap_content"
             android:text="약속장소 지도에서 선택"/>
 
-        <fragment
+        <com.naver.maps.map.MapView
+            android:id="@+id/naverMapView"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:id="@+id/naverMap"
-            android:name="com.naver.maps.map.MapFragment"/>
+            android:layout_height="250dp" />
 
         <Button
             android:layout_width="match_parent"

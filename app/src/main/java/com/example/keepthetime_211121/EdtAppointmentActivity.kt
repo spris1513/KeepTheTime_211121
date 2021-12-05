@@ -186,6 +186,46 @@ class EdtAppointmentActivity : BaseActivity() {
     }
 
     override fun setValues() {
+        binding.naverMapView.getMapAsync {
 
+//            로딩이 끝난 네이버 맵 객체(인스턴스가) > it 변수에 담겨있다.
+            val naverMap = it
+
+
+        }
+    }
+    override fun onStart() {
+        super.onStart()
+        binding.naverMapView.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.naverMapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.naverMapView.onPause()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        binding.naverMapView.onSaveInstanceState(outState)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.naverMapView.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.naverMapView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        binding.naverMapView.onLowMemory()
     }
 }
