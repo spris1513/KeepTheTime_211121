@@ -14,6 +14,9 @@
         android:theme="@style/Theme.KeepTheTime_211121"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ViewPlaceMapActivity"
+            android:exported="false" />
+        <activity
             android:name=".EdtAppointmentActivity"
             android:exported="false" />
         <activity
@@ -77,6 +80,7 @@
                     android:scheme="kakao6e29c8023ab377380cb8efb6bcb5ec8c" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="1g8ybj2q9l" />
