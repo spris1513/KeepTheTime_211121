@@ -22,5 +22,13 @@ class ViewPlaceMapActivity : BaseActivity() {
 
     override fun setValues() {
 
+//        0. 프로젝트에 네이버지도 설치(완료)
+
+//        1. 화면(xml)에 네이버 맵 띄워주기
+
+//        2. 네이버맵 객체를 실제로 얻어내기 > getMapAsync
+
+//        3. 카메라 이동 / 마커 추가
+
     }
 }
