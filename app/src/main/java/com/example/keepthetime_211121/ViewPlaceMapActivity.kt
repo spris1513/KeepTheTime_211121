@@ -9,6 +9,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.Overlay
 
 class ViewPlaceMapActivity : BaseActivity() {
 
@@ -62,12 +63,28 @@ class ViewPlaceMapActivity : BaseActivity() {
             val infoWindow = InfoWindow()
             infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext){
                 override fun getText(p0: InfoWindow): CharSequence {
-                    return "테스트 문구"
+                    return mScheduleData.place
                 }
 
             }
 
             infoWindow.open(marker)
+
+            naverMap.setOnMapClickListener { pointF, latLng ->
+                infoWindow.close()
+            }
+
+            marker.setOnClickListener {
+                if(marker.infoWindow ==null){
+                    infoWindow.open(marker)
+                }
+                else{
+//                    이미 정보창이 열린상태 > 닫아주기
+                    infoWindow.close()
+                }
+                return@setOnClickListener true
+
+            }
 
         }
 
