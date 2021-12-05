@@ -126,11 +126,17 @@ class EdtAppointmentActivity : BaseActivity() {
 
             val inputTitle = binding.edtTitle.text.toString()
 //            val inputDateTime = binding.edtDataTime.text.toString()
+
+//            mSelectedDateTime 에 저장된 약속 일시 를 > String 으로 가공(SimpleDateFormat) > 서버에 첨부
+
+            val serverFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
+            val finalDateTimeStr = serverFormat.format(mSelectedDateTime.time)
+
             val inputPlace = binding.edtPlace.text.toString()
             val inputLat = binding.edtLatitude.text.toString().toDouble()
             val inputLng = binding.edtLongitude.text.toString().toDouble()
 
-            apiService.postRequestAppointment(inputTitle,"임시값",inputPlace,inputLat,inputLng).enqueue(object :Callback<BasicResponse>{
+            apiService.postRequestAppointment(inputTitle,finalDateTimeStr,inputPlace,inputLat,inputLng).enqueue(object :Callback<BasicResponse>{
                 override fun onResponse(
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
