@@ -148,8 +148,14 @@ class EdtAppointmentActivity : BaseActivity() {
 //                        만든 리싸이클러 어댑터의 변수로 들어있는 onItemClick 기능활용
                         PlaceAdapter.onItemClickListener = object :PlaceSelectRecyclerAdapter.OnItemClickListener{
                             override fun onItemClick(data: PlaceData) {
+//                              임시 기능 : 토스트로 가게 이름 출력
+//                                Toast.makeText(mContext, data.placeName, Toast.LENGTH_SHORT).show()
 
-                                Toast.makeText(mContext, data.placeName, Toast.LENGTH_SHORT).show()
+//                                실제기능 : 장소를 선택한 곳으로 지정하지
+                                setPlaceDataToNaverMap(data)
+
+//                                추가기능 : 열려있는 팝업창 닫기
+
 
                             }
 
@@ -506,4 +512,14 @@ class EdtAppointmentActivity : BaseActivity() {
         super.onLowMemory()
         binding.naverMapView.onLowMemory()
     }
+
+//    장소를 선택하면> 지도에 반영해주는 함수
+
+    fun setPlaceDataToNaverMap(placeData:PlaceData){
+
+//        약속장소 입력값 변경
+        binding.edtPlace.setText(placeData.placeName)
+
+    }
+
 }
