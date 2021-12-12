@@ -145,6 +145,16 @@ class EdtAppointmentActivity : BaseActivity() {
                         placeSelectRecyclerView.adapter = PlaceAdapter
                         placeSelectRecyclerView.layoutManager = LinearLayoutManager(mContext)
 
+//                        만든 리싸이클러 어댑터의 변수로 들어있는 onItemClick 기능활용
+                        PlaceAdapter.onItemClickListener = object :PlaceSelectRecyclerAdapter.OnItemClickListener{
+                            override fun onItemClick(data: PlaceData) {
+
+                                Toast.makeText(mContext, data.placeName, Toast.LENGTH_SHORT).show()
+
+                            }
+
+                        }
+
                         alert.setTitle("약속장소선택")
 //                        alert.setMessage("정말~~?")
                         alert.setView(customView)
