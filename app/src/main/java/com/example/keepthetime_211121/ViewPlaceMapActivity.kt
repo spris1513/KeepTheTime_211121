@@ -11,6 +11,7 @@ import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
+import com.naver.maps.map.overlay.PathOverlay
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
@@ -168,6 +169,13 @@ class ViewPlaceMapActivity : BaseActivity() {
 
                         val endPoint = LatLng(mScheduleData.latitude, mScheduleData.longitude)
                         transCoords.add(endPoint)
+
+//                        경로는 지도 상세화면에서는, 한번만 그려줄 생각임.
+
+                        val path = PathOverlay()
+                        path.coords = transCoords
+                        path.map = naverMap
+
                     }
 
                     override fun onError(p0: Int, p1: String?, p2: API?) {
