@@ -133,15 +133,31 @@ class ViewPlaceMapActivity : BaseActivity() {
 
                             //세부 경로들 하나씩 꺼내보자 > 정거장 목록이 있는가? 추가검사
 
-                            for ( i in 0 until subPathArr.length()){
+                            for (i in 0 until subPathArr.length()) {
                                 val subPathObj = subPathArr.getJSONObject(i)
 
                                 //정거장 목록이 null이 아닌가? > 내려주는가?
 
-                                if(!subPathObj.isNull("passStopList")){
+                                if (!subPathObj.isNull("passStopList")) {
 
                                     //실제 정거장 목록 추출 > transCoords에 추가
+                                    val passStopListObj = subPathObj.getJSONObject("passStopList")
+                                    val stationsArr = passStopListObj.getJSONArray("stations")
 
+                                    for (j in 0 until stationsArr.length()) {
+                                        val stationObj = stationsArr.getJSONObject(j)
+
+//                                        x:경도(lng), y:위도(lat)
+                                        val lat = stationObj.getString("y").toDouble()
+                                        val lng = stationObj.getString("x").toDouble()
+
+                                        //네이버지도 좌표로 가공
+                                        val naverLatLng= LatLng(lat,lng)
+
+                                    //교통 좌표 목록에 추가
+                                        transCoords.add(naverLatLng)
+
+                                    }
                                 }
 
                             }
