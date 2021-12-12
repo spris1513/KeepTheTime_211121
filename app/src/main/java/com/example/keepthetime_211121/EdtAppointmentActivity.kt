@@ -10,6 +10,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.example.keepthetime_211121.databinding.ActivityEdtAppointmentBinding
 import com.example.keepthetime_211121.datas.BasicResponse
 import com.example.keepthetime_211121.datas.PlaceData
@@ -132,6 +133,11 @@ class EdtAppointmentActivity : BaseActivity() {
                         val alert = AlertDialog.Builder(mContext)
 
                         val customView = LayoutInflater.from(mContext).inflate(R.layout.my_custom_alert_select_place,null)
+                        
+//                        커스텀뷰 안의 리싸이클러뷰 추출
+                        val placeSelectRecyclerView = customView.findViewById<RecyclerView>(R.id.placeSelectRecyclerView)
+                        
+//                        리싸이클러뷰에, placeList에 담긴 장소 목록을 표시
 
                         alert.setTitle("약속장소선택")
 //                        alert.setMessage("정말~~?")
