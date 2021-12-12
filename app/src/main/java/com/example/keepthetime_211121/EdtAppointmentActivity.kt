@@ -36,6 +36,8 @@ class EdtAppointmentActivity : BaseActivity() {
     var mSelectedLatLng : LatLng? = null
     var mSelectedMarker : Marker? = null
 
+    var mPath : PathOverlay? = null
+
 
     lateinit var binding : ActivityEdtAppointmentBinding
 
@@ -235,17 +237,23 @@ class EdtAppointmentActivity : BaseActivity() {
                 val startingPoint = LatLng(37.56499045814495, 127.07210146981757)
 
 //                선이 그어질 경로(여러지점의 연결로 표현
+//                PathOverLay() 선 긋는 객체 생성 > 지도에 클릭될 때 마다 새로 생성됨 > 선도 하나씩 새로 그어짐
 
-                val path = PathOverlay()
+//                mPath 변수가 null 상태라면? 새 객체 만들어서 채워줌
+                if(mPath == null){
+                    mPath = PathOverlay()
+                }
 
-                path.coords = arrayListOf(
+                mPath!!.coords = arrayListOf(
                     startingPoint,
+                    LatLng(37.622,126.941),
                     latLng
                 )
 
-                path.map = naverMap
+                mPath!!.map = naverMap
 
             }
+
 
 
 
