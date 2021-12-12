@@ -2,8 +2,6 @@ package com.example.keepthetime_211121
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.graphics.Camera
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.DatePicker
@@ -15,7 +13,6 @@ import com.example.keepthetime_211121.datas.BasicResponse
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
@@ -26,6 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EdtAppointmentActivity : BaseActivity() {
 
@@ -37,17 +35,17 @@ class EdtAppointmentActivity : BaseActivity() {
 //    그 위치를 보여줄 마커(네이버 - Marker)
 //    처음 화면이 나타날때는, 아직 선택 안한상태 > 처음엔 위치, 마커 모두 아직 없는상태(초기값 - null)
 
-    var mSelectedLatLng : LatLng? = null
-    var mSelectedMarker : Marker? = null
+    var mSelectedLatLng: LatLng? = null
+    var mSelectedMarker: Marker? = null
 
-    var mPath : PathOverlay? = null
+    var mPath: PathOverlay? = null
 
 
-    lateinit var binding : ActivityEdtAppointmentBinding
+    lateinit var binding: ActivityEdtAppointmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=DataBindingUtil.setContentView(this,R.layout.activity_edt_appointment)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_edt_appointment)
         setupEvents()
         setValues()
     }
@@ -60,13 +58,13 @@ class EdtAppointmentActivity : BaseActivity() {
 
 //            1. 선택 완료 시 할 일 (OnTimeSetListener) 설정 > 변수에 담아두자
 
-            val timeSetListener = object :TimePickerDialog.OnTimeSetListener{
+            val timeSetListener = object : TimePickerDialog.OnTimeSetListener {
                 override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
 
 //                    Log.d("선택된시간1","${hourOfDay}시, ${minute}분")
 
-                    mSelectedDateTime.set( Calendar.HOUR_OF_DAY,hourOfDay )
-                    mSelectedDateTime.set(Calendar.MINUTE,minute)
+                    mSelectedDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                    mSelectedDateTime.set(Calendar.MINUTE, minute)
 
 //                    선택한 시간을 > 오후 4:05 형태로 txtTime에 표시
 
@@ -97,7 +95,7 @@ class EdtAppointmentActivity : BaseActivity() {
 
 //            선택 완료시 할 일 (JAVA > Interface) 설정 > 변수에 담아두자
 
-            val dateSetListener = object : DatePickerDialog.OnDateSetListener{
+            val dateSetListener = object : DatePickerDialog.OnDateSetListener {
                 override fun onDateSet(p0: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
 
 //                    실제로 날짜가 선택되면 할일 적는 공간
@@ -111,7 +109,7 @@ class EdtAppointmentActivity : BaseActivity() {
 //                    mSelectedDateTime.set(Calendar.DAY_OF_MONTH,dayOfMonth)
 
 //                    년/월/일을 한번에 저장하는 set 함수 활용
-                    mSelectedDateTime.set(year,month,dayOfMonth)
+                    mSelectedDateTime.set(year, month, dayOfMonth)
 
 //                    txtDate 의 문구를 > 2021-12-05 와 같은 양식으로 가공해서 텍스트 세팅. / 21년 8월 5일과 같은 양식으로 가공해서 텍스트세팅(연습)
 
@@ -134,7 +132,7 @@ class EdtAppointmentActivity : BaseActivity() {
             val datePickerDialog = DatePickerDialog(
                 mContext,
                 dateSetListener,
-                mSelectedDateTime.get( Calendar.YEAR ),
+                mSelectedDateTime.get(Calendar.YEAR),
                 mSelectedDateTime.get(Calendar.MONTH),
                 mSelectedDateTime.get(Calendar.DAY_OF_MONTH)
             )
@@ -149,7 +147,7 @@ class EdtAppointmentActivity : BaseActivity() {
 
 //            1. 일자 / 시간 모두 선택했는지?
 
-            if( binding.txtDate.text == "날짜 선택" || binding.txtTime.text == "시간 선택" ){
+            if (binding.txtDate.text == "날짜 선택" || binding.txtTime.text == "시간 선택") {
 
 //                둘 중 하나를 아직 입력하지 않은 상황
                 Toast.makeText(mContext, "약속 일시를 모두 선택 해 주세요", Toast.LENGTH_SHORT).show()
@@ -165,7 +163,7 @@ class EdtAppointmentActivity : BaseActivity() {
 
 //            두개의 시간을 양으로 변환해서 대소비교
 
-            if ( mSelectedDateTime.timeInMillis < now.timeInMillis ){
+            if (mSelectedDateTime.timeInMillis < now.timeInMillis) {
 
 //                약속시간이, 현재시간보다 덜 시간이 흐른 상태(더 이전시간)
 
@@ -179,7 +177,7 @@ class EdtAppointmentActivity : BaseActivity() {
 
 //            약속장소 추가 검증
 
-            if(mSelectedLatLng == null){
+            if (mSelectedLatLng == null) {
                 Toast.makeText(mContext, "약속 장소를 지도에서 선택 해 주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -194,7 +192,13 @@ class EdtAppointmentActivity : BaseActivity() {
 
             val inputPlace = binding.edtPlace.text.toString()
 
-            apiService.postRequestAppointment(inputTitle,finalDateTimeStr,inputPlace,mSelectedLatLng!!.latitude,mSelectedLatLng!!.longitude).enqueue(object :Callback<BasicResponse>{
+            apiService.postRequestAppointment(
+                inputTitle,
+                finalDateTimeStr,
+                inputPlace,
+                mSelectedLatLng!!.latitude,
+                mSelectedLatLng!!.longitude
+            ).enqueue(object : Callback<BasicResponse> {
                 override fun onResponse(
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
@@ -230,7 +234,7 @@ class EdtAppointmentActivity : BaseActivity() {
                 mSelectedLatLng = latLng
 
 //                선택한 위치를 보여 줄 마커도(만들어진게 없다면 새로) 생성.
-                if(mSelectedMarker == null){
+                if (mSelectedMarker == null) {
                     mSelectedMarker = Marker()
                 }
                 mSelectedMarker!!.position = latLng
@@ -243,7 +247,8 @@ class EdtAppointmentActivity : BaseActivity() {
 //                출발지 > 도착지까지의 대중교통 정거장 목록 위경도 추출
 //                ODSay 라이브러리 설치 > API 활용
 
-                val myODSayService =ODsayService.init(mContext,resources.getString(R.string.odsay_key))
+                val myODSayService =
+                    ODsayService.init(mContext, resources.getString(R.string.odsay_key))
 
                 myODSayService.requestSearchPubTransPath(
                     startingPoint.longitude.toString(),
@@ -253,40 +258,52 @@ class EdtAppointmentActivity : BaseActivity() {
                     null,
                     null,
                     null,
-                    object : OnResultCallbackListener{
+                    object : OnResultCallbackListener {
                         override fun onSuccess(p0: ODsayData?, p1: API?) {
-                         val jsonObj = p0!!.json
-                            Log.d("길찾기응답",jsonObj.toString())
+                            val jsonObj = p0!!.json
+                            Log.d("길찾기응답", jsonObj.toString())
+
+//                            출발지 ~ 지하철역(or 버스정거장) 좌표들 ~ 도착지 좌표 목록으로 설정
+
+                            val transCoords = ArrayList<LatLng>()
+
+//                            출발지를 첫 좌표로 등록
+                            transCoords.add(startingPoint)
+
+//                            지하철역 등 좌표를 등록(파싱 - 반복문)
+
+//                            도착지를 마지막 좌표로 등록
+                            transCoords.add(latLng)
+
+//                            지도에 선 그려주기기
+
+//                            선이 그어질 경로(여러지점의 연결로 표현
+//                            PathOverLay() 선 긋는 객체 생성 > 지도에 클릭될 때 마다 새로 생성됨 > 선도 하나씩 새로 그어짐
+
+//                            mPath 변수가 null 상태라면? 새 객체 만들어서 채워줌
+                            if (mPath == null) {
+                                mPath = PathOverlay()
+                            }
+
+
+
+                            mPath!!.map = naverMap
+
                         }
 
                         override fun onError(p0: Int, p1: String?, p2: API?) {
-                            Log.d("길찾기에러",p1.toString())
+                            Log.d("길찾기에러", p1.toString())
                         }
                     }
                 )
 
-//                선이 그어질 경로(여러지점의 연결로 표현
-//                PathOverLay() 선 긋는 객체 생성 > 지도에 클릭될 때 마다 새로 생성됨 > 선도 하나씩 새로 그어짐
-
-//                mPath 변수가 null 상태라면? 새 객체 만들어서 채워줌
-                if(mPath == null){
-                    mPath = PathOverlay()
-                }
-
-                mPath!!.coords = arrayListOf(
-                    startingPoint,
-                    latLng
-                )
-
-                mPath!!.map = naverMap
 
             }
 
 
-
-
         }
     }
+
     override fun onStart() {
         super.onStart()
         binding.naverMapView.onStart()
