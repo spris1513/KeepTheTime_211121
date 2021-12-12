@@ -16,6 +16,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
+import com.naver.maps.map.overlay.PathOverlay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -228,6 +229,22 @@ class EdtAppointmentActivity : BaseActivity() {
                 }
                 mSelectedMarker!!.position = latLng
                 mSelectedMarker!!.map = naverMap
+
+//                하나의 지점(본인 집 - startingPoint)에서 > 클릭한지점(latLng)까지 선긋기.
+
+                val startingPoint = LatLng(37.56499045814495, 127.07210146981757)
+
+//                선이 그어질 경로(여러지점의 연결로 표현
+
+                val path = PathOverlay()
+
+                path.coords = arrayListOf(
+                    startingPoint,
+                    latLng
+                )
+
+                path.map = naverMap
+
             }
 
 
