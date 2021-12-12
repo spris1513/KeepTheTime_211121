@@ -19,10 +19,12 @@ import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
 import com.odsay.odsayandroidsdk.OnResultCallbackListener
 import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -85,6 +87,18 @@ class EdtAppointmentActivity : BaseActivity() {
                 .build()
 
 //            4. OkHttpClient를 이용해 실제 카카오서버 호출
+
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object :okhttp3.Callback {
+                override fun onFailure(call: okhttp3.Call, e: IOException) {
+//                    연결실패
+                }
+
+                override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+//                    검색결과 돌아옴 > 분석(JSON 파싱) / UI반영
+                }
+
+            })
 
 
         }
