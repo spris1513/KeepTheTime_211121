@@ -17,6 +17,10 @@ import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
+import com.odsay.odsayandroidsdk.API
+import com.odsay.odsayandroidsdk.ODsayData
+import com.odsay.odsayandroidsdk.ODsayService
+import com.odsay.odsayandroidsdk.OnResultCallbackListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -236,6 +240,31 @@ class EdtAppointmentActivity : BaseActivity() {
 
                 val startingPoint = LatLng(37.56499045814495, 127.07210146981757)
 
+//                출발지 > 도착지까지의 대중교통 정거장 목록 위경도 추출
+//                ODSay 라이브러리 설치 > API 활용
+
+                val myODSayService =ODsayService.init(mContext,resources.getString(R.string.odsay_key))
+
+                myODSayService.requestSearchPubTransPath(
+                    startingPoint.longitude.toString(),
+                    startingPoint.latitude.toString(),
+                    latLng.longitude.toString(),
+                    latLng.latitude.toString(),
+                    null,
+                    null,
+                    null,
+                    object : OnResultCallbackListener{
+                        override fun onSuccess(p0: ODsayData?, p1: API?) {
+                         val jsonObj = p0!!.json
+                            Log.d("길찾기응답",jsonObj.toString())
+                        }
+
+                        override fun onError(p0: Int, p1: String?, p2: API?) {
+                            Log.d("길찾기에러",p1.toString())
+                        }
+                    }
+                )
+
 //                선이 그어질 경로(여러지점의 연결로 표현
 //                PathOverLay() 선 긋는 객체 생성 > 지도에 클릭될 때 마다 새로 생성됨 > 선도 하나씩 새로 그어짐
 
@@ -246,7 +275,6 @@ class EdtAppointmentActivity : BaseActivity() {
 
                 mPath!!.coords = arrayListOf(
                     startingPoint,
-                    LatLng(37.622,126.941),
                     latLng
                 )
 
