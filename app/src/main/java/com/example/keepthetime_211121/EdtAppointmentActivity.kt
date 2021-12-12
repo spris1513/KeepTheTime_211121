@@ -272,6 +272,20 @@ class EdtAppointmentActivity : BaseActivity() {
 
 //                            지하철역 등 좌표를 등록(파싱 - 반복문)
 
+                            val resultObj = jsonObj.getJSONObject("result")
+
+                            val pathArr = resultObj.getJSONArray("path")
+
+//                            첫번째 경로만 활용 예정
+                            if(pathArr.length() > 0){
+
+                                val firstPath = pathArr.getJSONObject(0)
+                                Log.d("첫번째 추천 경로",firstPath.toString())
+
+
+
+                            }
+
 //                            도착지를 마지막 좌표로 등록
                             transCoords.add(latLng)
 
