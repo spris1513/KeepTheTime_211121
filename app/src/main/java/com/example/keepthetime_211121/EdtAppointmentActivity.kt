@@ -135,6 +135,7 @@ class EdtAppointmentActivity : BaseActivity() {
 
                         alert.setTitle("약속장소선택")
 //                        alert.setMessage("정말~~?")
+                        alert.setView(customView)
 
                         alert.show()
                     }
