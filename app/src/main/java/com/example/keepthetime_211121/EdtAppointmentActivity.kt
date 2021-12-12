@@ -145,6 +145,13 @@ class EdtAppointmentActivity : BaseActivity() {
                         placeSelectRecyclerView.adapter = PlaceAdapter
                         placeSelectRecyclerView.layoutManager = LinearLayoutManager(mContext)
 
+                        alert.setTitle("약속장소선택")
+//                        alert.setMessage("정말~~?")
+                        alert.setView(customView)
+
+//                        열린 경고창 화면(dialog)을 변수에 담아두고 > 코드로 닫아주자
+                        val dialog = alert.show()
+
 //                        만든 리싸이클러 어댑터의 변수로 들어있는 onItemClick 기능활용
                         PlaceAdapter.onItemClickListener = object :PlaceSelectRecyclerAdapter.OnItemClickListener{
                             override fun onItemClick(data: PlaceData) {
@@ -154,18 +161,15 @@ class EdtAppointmentActivity : BaseActivity() {
 //                                실제기능 : 장소를 선택한 곳으로 지정하지
                                 setPlaceDataToNaverMap(data)
 
-//                                추가기능 : 열려있는 팝업창 닫기
+//                                추가기능 : 열려있는(show로 나타난) 팝업창 닫기 > dialog변수에 담긴 화면 닫기
 
+                                dialog.dismiss()
 
                             }
 
                         }
 
-                        alert.setTitle("약속장소선택")
-//                        alert.setMessage("정말~~?")
-                        alert.setView(customView)
 
-                        alert.show()
                     }
 
                 }
