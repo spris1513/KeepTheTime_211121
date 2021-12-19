@@ -51,6 +51,8 @@ class EdtAppointmentActivity : BaseActivity() {
 
     var mPath: PathOverlay? = null
 
+//    서버에서 받아온 출발지 목록을 담아줄 ArrayList
+    val mStartingPointList = ArrayList<PlaceData>()
 
     lateinit var binding: ActivityEdtAppointmentBinding
 
@@ -368,6 +370,33 @@ class EdtAppointmentActivity : BaseActivity() {
 
 
         }
+
+        getStartingPointFromServer()
+    }
+
+    fun getStartingPointFromServer() {
+
+//        서버에서 가져와야함 : API활용
+        apiService.getRequestStartingPointList().enqueue(object : Callback<BasicResponse>{
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+
+                if (response.isSuccessful){
+
+                    val br = response.body()!!
+
+                    mStartingPointList.clear()
+                    mStartingPointList.addAll(br.data.places)
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+
+        })
+
     }
 
     override fun onStart() {

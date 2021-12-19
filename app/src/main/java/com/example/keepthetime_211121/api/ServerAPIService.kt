@@ -2,6 +2,7 @@ package com.example.keepthetime_211121.api
 
 import com.example.keepthetime_211121.datas.BasicResponse
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.*
 
 interface ServerAPIService {
@@ -91,6 +92,9 @@ interface ServerAPIService {
         @Field("longitude") log : Double,
         @Field("is_primary") isPrimary : Boolean,
     ) : Call<BasicResponse>
+
+    @GET("/user/place")
+    fun getRequestStartingPointList(): Call<BasicResponse>
 
 
 }
