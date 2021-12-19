@@ -11,10 +11,7 @@ import com.example.keepthetime_211121.databinding.ActivityViewPlaceMapBinding
 import com.example.keepthetime_211121.datas.ScheduleData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
-import com.naver.maps.map.overlay.InfoWindow
-import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.Overlay
-import com.naver.maps.map.overlay.PathOverlay
+import com.naver.maps.map.overlay.*
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
@@ -100,15 +97,38 @@ class ViewPlaceMapActivity : BaseActivity() {
 //            출발지 정보 ~ 도착지 API 호출
 //            학원 or 집 좌표 출발지 지정
 
-            val startingPoint = LatLng(37.56499045814495, 127.07210146981757)
+            val startingPoint = LatLng(mScheduleData.startLatitude,mScheduleData.startLongitude)
+
+            val startMarker = Marker()
+            startMarker.position = startingPoint
+            startMarker.icon = OverlayImage.fromResource(R.drawable.red_marker)
+            startMarker.map = naverMap
+
+            val startInfoWindow = InfoWindow()
+            startInfoWindow.open(startMarker)
+
+            naverMap.setOnMapClickListener { pointF, latLng ->
+                startInfoWindow.close()
+            }
+
+            marker.setOnClickListener {
+                if (startMarker.infoWindow == null) {
+                    startInfoWindow.open(startMarker)
+                } else {
+//                    이미 정보창이 열린상태 > 닫아주기
+                    startInfoWindow.close()
+                }
+                return@setOnClickListener true
+
+            }
 
 //            오디세이 라이브러리로 > 대중교통 경로 API 호출
 
             val myODsayService =
                 ODsayService.init(mContext, resources.getString(R.string.odsay_key))
             myODsayService.requestSearchPubTransPath(
-                127.07210146981757.toString(),
-                37.56499045814495.toString(),
+                mScheduleData.startLongitude.toString(),
+                mScheduleData.startLatitude.toString(),
                 mScheduleData.longitude.toString(),
                 mScheduleData.latitude.toString(),
                 null,
@@ -182,6 +202,15 @@ class ViewPlaceMapActivity : BaseActivity() {
 //                        말풍선의 내용을, 경로찾기가 끝나고 나서 세팅
 //                        커스텀 뷰를 > 말풍선 내에 띄워보자
 //                        네이버 지도 기능(설명 X) + 안드로이드 코딩 지식 활용 > 응용
+
+                        startInfoWindow.adapter = object :InfoWindow.DefaultTextAdapter(mContext){
+                            override fun getText(p0: InfoWindow): CharSequence {
+                                return mScheduleData.startPlace
+                            }
+
+                        }
+
+
                         infoWindow.adapter = object : InfoWindow.DefaultViewAdapter(mContext){
                             override fun getContentView(p0: InfoWindow): View {
 
