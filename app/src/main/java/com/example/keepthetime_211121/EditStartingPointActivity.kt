@@ -4,21 +4,27 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import com.example.keepthetime_211121.api.ServerAPI
+import com.example.keepthetime_211121.api.ServerAPIService
 import com.example.keepthetime_211121.databinding.ActivityEditStartingPointBinding
+import com.example.keepthetime_211121.datas.BasicResponse
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class EditStartingPointActivity : BaseActivity() {
 
-    lateinit var binding:ActivityEditStartingPointBinding
+    lateinit var binding: ActivityEditStartingPointBinding
 
-
-    var mSelectedMarker : Marker? = null
+    var mSelectedLatLng: LatLng? = null
+    var mSelectedMarker: Marker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_edit_starting_point)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_starting_point)
         binding.naverMapView.onCreate(savedInstanceState)
         setupEvents()
         setValues()
@@ -27,7 +33,34 @@ class EditStartingPointActivity : BaseActivity() {
     override fun setupEvents() {
 
 
+        binding.btnSaveStartingPoint.setOnClickListener {
+
+            val inputName = binding.edtInputPlace.text.toString()
+
+            apiService.postRequestStartingPoint(
+                inputName,
+                mSelectedLatLng!!.latitude,
+                mSelectedLatLng!!.longitude,
+                true
+            ).enqueue(object : Callback<BasicResponse>{
+                override fun onResponse(
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>
+                ) {
+
+                }
+
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                }
+
+            })
+
+
         }
+
+
+    }
 
     override fun setValues() {
 
@@ -44,7 +77,7 @@ class EditStartingPointActivity : BaseActivity() {
 //                단 하나의 마커만 유지 > 아직 안그려졌을때만 생성하자
 //                위치는 매번 클릭될 때 마다 설정 ( EditAppointmentActivity 참고)
 
-                if (mSelectedMarker == null){
+                if (mSelectedMarker == null) {
 //                    멤버변수로 만들어둔 마커가 null일때만 생성 > 하나의 객체를 유지시키는 코딩방법
                     mSelectedMarker = Marker()
                 }
@@ -55,6 +88,9 @@ class EditStartingPointActivity : BaseActivity() {
 
                 val cameraUpdate = CameraUpdate.scrollTo(latLng)
                 naverMap.moveCamera(cameraUpdate)
+
+//                선택된 위치를 서버에 보낼 때 활용 , 멤버변수에 선택된 위치를 저장
+                mSelectedLatLng = latLng
 
             }
 

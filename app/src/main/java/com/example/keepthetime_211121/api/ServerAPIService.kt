@@ -77,13 +77,20 @@ interface ServerAPIService {
     @GET("/appointment")
     fun getRequestAppointment():Call<BasicResponse>
 
-
-
 //    연습 - 내 정보 가져오기 API
 
     @GET("/user")
     fun getRequestMyInfo() : Call<BasicResponse>
 
+//    내 출발장소 등록하기
+    @FormUrlEncoded
+    @POST("/user/place")
+    fun postRequestStartingPoint(
+        @Field("name") name : String,
+        @Field("latitude") lat : Double,
+        @Field("longitude") log : Double,
+        @Field("is_primary") isPrimary : Boolean,
+    ) : Call<BasicResponse>
 
 
 }
