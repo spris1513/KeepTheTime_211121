@@ -60,6 +60,9 @@ class EdtAppointmentActivity : BaseActivity() {
 //    출발지 목록을 스피너에 뿌려줄 어댑터
     lateinit var mStartingPointAdapter : StartingPointSpinnerAdapter
 
+//    실제 선택한 출발지가 어디인지 담아줄 변수
+    lateinit var mSelectedStartingPoint : PlaceData
+
     lateinit var binding: ActivityEdtAppointmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,8 +84,17 @@ class EdtAppointmentActivity : BaseActivity() {
             ) {
 
 //                position (p2) 변수가, 선택한 아이템이 몇번째 아이템인지 알려주는 역할
-                val selectedStartingPoint = mStartingPointList[position]
-                Toast.makeText(mContext, selectedStartingPoint.placeName ,Toast.LENGTH_SHORT).show()
+                mSelectedStartingPoint = mStartingPointList[position]
+//                Toast.makeText(mContext, selectedStartingPoint.placeName ,Toast.LENGTH_SHORT).show()
+
+//                출발지~도착지까지의 경로 선을 새로 그려주자.
+//                도착지가 선택 되어 있을때에 선을 새로 그려줘야함
+                if(mSelectedLatLng != null){
+
+//                    도착지가 있는 상황 > 장소를 가지고 새로 선을 그려주자.
+//                    setPlaceDataToNaverMap()
+
+                }
 
             }
 
@@ -499,7 +511,9 @@ class EdtAppointmentActivity : BaseActivity() {
 
 //                하나의 지점(본인 집 - startingPoint)에서 > 클릭한지점(latLng)까지 선긋기.
 
-            val startingPoint = LatLng(37.56499045814495, 127.07210146981757)
+//            선택해 둔 출발지(멤버변수로 설정) ~ 도착지까지 선 긋기.
+
+//            val startingPoint = LatLng(37.56499045814495, 127.07210146981757)
 
 //                출발지 > 도착지까지의 대중교통 정거장 목록 위경도 추출
 //                ODSay 라이브러리 설치 > API 활용
@@ -508,8 +522,8 @@ class EdtAppointmentActivity : BaseActivity() {
                 ODsayService.init(mContext, resources.getString(R.string.odsay_key))
 
             myODSayService.requestSearchPubTransPath(
-                startingPoint.longitude.toString(),
-                startingPoint.latitude.toString(),
+                mSelectedStartingPoint.longitude.toString(),
+                mSelectedStartingPoint.latitude.toString(),
                 latlng.longitude.toString(),
                 latlng.latitude.toString(),
                 null,
@@ -524,8 +538,11 @@ class EdtAppointmentActivity : BaseActivity() {
 
                         val transCoords = ArrayList<LatLng>()
 
+//                        선택해둔 출발지의 네이버 지도 표시
+                        val startingPointCoords = LatLng(mSelectedStartingPoint.latitude,mSelectedStartingPoint.longitude)
+
 //                            출발지를 첫 좌표로 등록
-                        transCoords.add(startingPoint)
+                        transCoords.add(startingPointCoords)
 
 //                            지하철역 등 좌표를 등록(파싱 - 반복문)
 
