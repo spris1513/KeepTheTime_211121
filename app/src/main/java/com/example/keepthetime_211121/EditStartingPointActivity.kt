@@ -63,7 +63,14 @@ class EditStartingPointActivity : BaseActivity() {
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
-
+//                    응답이 최종 성공 > 장소등록 성공 토스트 / 화면종료
+                    if(response.isSuccessful){
+                        Toast.makeText(mContext, "출발 장소 등록에 성공했습니다.", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    else{
+                        Toast.makeText(mContext, "출발 장소 등록에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
                 }
 
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
