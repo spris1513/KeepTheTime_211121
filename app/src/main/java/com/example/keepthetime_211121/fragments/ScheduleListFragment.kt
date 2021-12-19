@@ -50,11 +50,17 @@ class ScheduleListFragment : BaseFragment() {
     }
 
     override fun setValues() {
-        getScheduleLitFromServer()
 
         mScheduleAdapter = ScheduleRecyclerAdapter(mContext,mScheduleList)
         binding.appointmentRecyclerView.adapter = mScheduleAdapter
         binding.appointmentRecyclerView.layoutManager = LinearLayoutManager(mContext)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getScheduleLitFromServer()
+
+
     }
 
     fun getScheduleLitFromServer(){
