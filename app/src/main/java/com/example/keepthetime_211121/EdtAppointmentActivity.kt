@@ -54,14 +54,14 @@ class EdtAppointmentActivity : BaseActivity() {
 
     var mPath: PathOverlay? = null
 
-//    서버에서 받아온 출발지 목록을 담아줄 ArrayList
+    //    서버에서 받아온 출발지 목록을 담아줄 ArrayList
     val mStartingPointList = ArrayList<PlaceData>()
 
-//    출발지 목록을 스피너에 뿌려줄 어댑터
-    lateinit var mStartingPointAdapter : StartingPointSpinnerAdapter
+    //    출발지 목록을 스피너에 뿌려줄 어댑터
+    lateinit var mStartingPointAdapter: StartingPointSpinnerAdapter
 
-//    실제 선택한 출발지가 어디인지 담아줄 변수
-    lateinit var mSelectedStartingPoint : PlaceData
+    //    실제 선택한 출발지가 어디인지 담아줄 변수
+    lateinit var mSelectedStartingPoint: PlaceData
 
     lateinit var binding: ActivityEdtAppointmentBinding
 
@@ -75,34 +75,43 @@ class EdtAppointmentActivity : BaseActivity() {
     override fun setupEvents() {
 
 //        스피너의 이벤트 처리
-        binding.startingPointSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+        binding.startingPointSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
 
 //                position (p2) 변수가, 선택한 아이템이 몇번째 아이템인지 알려주는 역할
-                mSelectedStartingPoint = mStartingPointList[position]
+                    mSelectedStartingPoint = mStartingPointList[position]
 //                Toast.makeText(mContext, selectedStartingPoint.placeName ,Toast.LENGTH_SHORT).show()
 
 //                출발지~도착지까지의 경로 선을 새로 그려주자.
 //                도착지가 선택 되어 있을때에 선을 새로 그려줘야함
-                if(mSelectedLatLng != null){
+                    if (mSelectedLatLng != null) {
 
 //                    도착지가 있는 상황 > 장소를 가지고 새로 선을 그려주자.
-//                    setPlaceDataToNaverMap()
+
+//                    도착지 정보를 가지고 > 새로운 PlaceData를 만들어서 > 지도에 세팅하게 해주자.
+//                    변경된 출발지 + 기존의 도착지 로 다시 그리도록
+
+                        val inputPlaceName = binding.edtPlace.text.toString()
+
+                        val newPlaceData = PlaceData(0,inputPlaceName,mSelectedLatLng!!.latitude,mSelectedLatLng!!.longitude)
+
+                        setPlaceDataToNaverMap(newPlaceData)
+
+                    }
+
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
 
                 }
 
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-        }
 
         binding.btnSearchPlace.setOnClickListener {
 
@@ -162,7 +171,7 @@ class EdtAppointmentActivity : BaseActivity() {
                         val lat = documentObj.getString("y").toDouble()
                         val lng = documentObj.getString("x").toDouble()
 
-                        val placeData = PlaceData(0,placeName, lat, lng)
+                        val placeData = PlaceData(0, placeName, lat, lng)
                         placeList.add(placeData)
                     }
 
@@ -401,9 +410,9 @@ class EdtAppointmentActivity : BaseActivity() {
 
                 val inputPlace = binding.edtPlace.text.toString()
 
-                val placeData = PlaceData(0,inputPlace,latLng.latitude,latLng.longitude)
+                val placeData = PlaceData(0, inputPlace, latLng.latitude, latLng.longitude)
 
-                setPlaceDataToNaverMap(placeData )
+                setPlaceDataToNaverMap(placeData)
 
             }
 
@@ -412,7 +421,11 @@ class EdtAppointmentActivity : BaseActivity() {
 
         getStartingPointFromServer()
 
-        mStartingPointAdapter = StartingPointSpinnerAdapter(mContext,R.layout.starting_point_list_item,mStartingPointList)
+        mStartingPointAdapter = StartingPointSpinnerAdapter(
+            mContext,
+            R.layout.starting_point_list_item,
+            mStartingPointList
+        )
         binding.startingPointSpinner.adapter = mStartingPointAdapter
 
     }
@@ -420,10 +433,10 @@ class EdtAppointmentActivity : BaseActivity() {
     fun getStartingPointFromServer() {
 
 //        서버에서 가져와야함 : API활용
-        apiService.getRequestStartingPointList().enqueue(object : Callback<BasicResponse>{
+        apiService.getRequestStartingPointList().enqueue(object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
 
                     val br = response.body()!!
 
@@ -491,7 +504,7 @@ class EdtAppointmentActivity : BaseActivity() {
             val naverMap = it
 
 //            장소데이터 기반 > 네이버 위치 객체로 가공
-            val latlng = LatLng(placeData.latitude,placeData.longitude)
+            val latlng = LatLng(placeData.latitude, placeData.longitude)
 
 
 //                클릭된 좌표 latLng > 카메라 이동(정가운데) / 마커 찍기
@@ -539,7 +552,10 @@ class EdtAppointmentActivity : BaseActivity() {
                         val transCoords = ArrayList<LatLng>()
 
 //                        선택해둔 출발지의 네이버 지도 표시
-                        val startingPointCoords = LatLng(mSelectedStartingPoint.latitude,mSelectedStartingPoint.longitude)
+                        val startingPointCoords = LatLng(
+                            mSelectedStartingPoint.latitude,
+                            mSelectedStartingPoint.longitude
+                        )
 
 //                            출발지를 첫 좌표로 등록
                         transCoords.add(startingPointCoords)
