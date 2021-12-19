@@ -385,7 +385,10 @@ class EdtAppointmentActivity : BaseActivity() {
                 finalDateTimeStr,
                 inputPlace,
                 mSelectedLatLng!!.latitude,
-                mSelectedLatLng!!.longitude
+                mSelectedLatLng!!.longitude,
+                mSelectedStartingPoint.placeName,
+                mSelectedStartingPoint.latitude,
+                mSelectedStartingPoint.longitude,
             ).enqueue(object : Callback<BasicResponse> {
                 override fun onResponse(
                     call: Call<BasicResponse>,

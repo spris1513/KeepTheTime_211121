@@ -73,6 +73,9 @@ interface ServerAPIService {
         @Field("place") place : String,
         @Field("latitude") lat : Double,
         @Field("longitude") log : Double,
+        @Field("start_place") startPlace : String,
+        @Field("start_latitude") startLat : Double,
+        @Field("start_longitude") startLog : Double,
     ) : Call<BasicResponse>
 
     @GET("/appointment")
