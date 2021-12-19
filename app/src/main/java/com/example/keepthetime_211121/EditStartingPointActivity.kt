@@ -3,6 +3,7 @@ package com.example.keepthetime_211121
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.api.ServerAPI
 import com.example.keepthetime_211121.api.ServerAPIService
@@ -36,6 +37,21 @@ class EditStartingPointActivity : BaseActivity() {
         binding.btnSaveStartingPoint.setOnClickListener {
 
             val inputName = binding.edtInputPlace.text.toString()
+
+//            장소 이름이 2자 이상이어야 진행 되도록
+            if(inputName.length < 2 ){
+
+                Toast.makeText(mContext, "장소이름은 2자 이상으로 해주세요", Toast.LENGTH_SHORT).show()
+
+                return@setOnClickListener
+            }
+
+//            지도에서 위치를 선택 했어야 진행되도록
+//            mSelectedLatLng가 지금 시점에도 null이면 > 지도에서 위치선택 안하고 저장버튼 눌렀다.
+            if (mSelectedLatLng == null){
+                Toast.makeText(mContext, "지도에서 장소를 선택 해 주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             apiService.postRequestStartingPoint(
                 inputName,
