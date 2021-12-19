@@ -3,6 +3,7 @@ package com.example.keepthetime_211121
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.databinding.ActivityViewPlaceMapBinding
@@ -184,6 +185,10 @@ class ViewPlaceMapActivity : BaseActivity() {
                             override fun getContentView(p0: InfoWindow): View {
 
 //                                말풍선에 들어갈 xml을 그리고 나서 inflate > getContentView 함수의 결과로 지정.
+
+                                val view = LayoutInflater.from(mContext).inflate(R.layout.place_info_window_view,null)
+
+                                return view
 
                             }
 
