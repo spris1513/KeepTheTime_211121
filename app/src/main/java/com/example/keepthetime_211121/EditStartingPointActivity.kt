@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.databinding.ActivityEditStartingPointBinding
+import com.naver.maps.map.overlay.Marker
 
 class EditStartingPointActivity : BaseActivity() {
 
@@ -27,7 +28,21 @@ class EditStartingPointActivity : BaseActivity() {
 
         binding.naverMapView.getMapAsync {
 
+            val naverMap = it
 
+//            지도의 한 곳을 클릭하면 > 마커를 추가
+
+
+            naverMap.setOnMapClickListener { pointF, latLng ->
+
+//                클랙 될 때 마다 생성자 호출 > 매번 새 마커를 그려주고있다.
+//                단 하나의 마커만 유지 > 아직 안그려졌을때만 생성하자
+
+                val marker = Marker()
+                marker.position = latLng
+                marker.map = naverMap
+
+            }
 
         }
 
