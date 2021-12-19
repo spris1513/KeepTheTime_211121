@@ -22,6 +22,7 @@ import com.example.keepthetime_211121.datas.PlaceData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
@@ -51,6 +52,9 @@ class EdtAppointmentActivity : BaseActivity() {
 
     var mSelectedLatLng: LatLng? = null
     var mSelectedMarker: Marker? = null
+
+//    출발지를 보여줄 마커
+    var mStartingPointMarker : Marker? = null
 
     var mPath: PathOverlay? = null
 
@@ -86,7 +90,10 @@ class EdtAppointmentActivity : BaseActivity() {
 
 //                position (p2) 변수가, 선택한 아이템이 몇번째 아이템인지 알려주는 역할
                     mSelectedStartingPoint = mStartingPointList[position]
-//                Toast.makeText(mContext, selectedStartingPoint.placeName ,Toast.LENGTH_SHORT).show()
+
+//                    선택한 출발지의 위치를 커스텀 마커로 띄워보자.
+
+//               Toast.makeText(mContext, selectedStartingPoint.placeName ,Toast.LENGTH_SHORT).show()
 
 //                출발지~도착지까지의 경로 선을 새로 그려주자.
 //                도착지가 선택 되어 있을때에 선을 새로 그려줘야함
@@ -384,6 +391,10 @@ class EdtAppointmentActivity : BaseActivity() {
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
+                    if (response.isSuccessful){
+                        Toast.makeText(mContext, "약속 등록에 성공했습니다.", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
 
                 }
 
@@ -519,8 +530,19 @@ class EdtAppointmentActivity : BaseActivity() {
             if (mSelectedMarker == null) {
                 mSelectedMarker = Marker()
             }
+
             mSelectedMarker!!.position = latlng
             mSelectedMarker!!.map = naverMap
+
+//            출발지를 보여줄 마커도(만들어진게 없다면 ) 새로 생성
+
+            if(mStartingPointMarker == null){
+                mStartingPointMarker = Marker()
+            }
+
+            mStartingPointMarker!!.position = LatLng(mSelectedStartingPoint.latitude,mSelectedStartingPoint.longitude)
+            mStartingPointMarker!!.icon = OverlayImage.fromResource(R.drawable.red_marker)
+            mStartingPointMarker!!.map = naverMap
 
 //                하나의 지점(본인 집 - startingPoint)에서 > 클릭한지점(latLng)까지 선긋기.
 
