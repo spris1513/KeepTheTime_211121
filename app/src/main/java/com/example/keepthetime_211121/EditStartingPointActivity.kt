@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.databinding.ActivityEditStartingPointBinding
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
 
 class EditStartingPointActivity : BaseActivity() {
@@ -49,6 +50,11 @@ class EditStartingPointActivity : BaseActivity() {
                 }
                 mSelectedMarker!!.position = latLng
                 mSelectedMarker!!.map = naverMap
+
+//                클릭한 위치(latLng)로 카메라 이동 > 마커가 가운데 위치
+
+                val cameraUpdate = CameraUpdate.scrollTo(latLng)
+                naverMap.moveCamera(cameraUpdate)
 
             }
 
