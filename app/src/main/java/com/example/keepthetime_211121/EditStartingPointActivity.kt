@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_211121.databinding.ActivityEditStartingPointBinding
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.overlay.Marker
 
 class EditStartingPointActivity : BaseActivity() {
 
     lateinit var binding:ActivityEditStartingPointBinding
+
+
+    var mSelectedMarker : Marker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +41,14 @@ class EditStartingPointActivity : BaseActivity() {
 
 //                클랙 될 때 마다 생성자 호출 > 매번 새 마커를 그려주고있다.
 //                단 하나의 마커만 유지 > 아직 안그려졌을때만 생성하자
+//                위치는 매번 클릭될 때 마다 설정 ( EditAppointmentActivity 참고)
 
-                val marker = Marker()
-                marker.position = latLng
-                marker.map = naverMap
+                if (mSelectedMarker == null){
+//                    멤버변수로 만들어둔 마커가 null일때만 생성 > 하나의 객체를 유지시키는 코딩방법
+                    mSelectedMarker = Marker()
+                }
+                mSelectedMarker!!.position = latLng
+                mSelectedMarker!!.map = naverMap
 
             }
 
