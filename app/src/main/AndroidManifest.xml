@@ -14,6 +14,12 @@
         android:theme="@style/Theme.KeepTheTime_211121"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".EditStartingPointActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StartingPointListManageActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewPlaceMapActivity"
             android:exported="false" />
         <activity
