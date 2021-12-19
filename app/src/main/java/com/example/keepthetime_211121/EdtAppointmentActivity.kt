@@ -121,7 +121,7 @@ class EdtAppointmentActivity : BaseActivity() {
                         val lat = documentObj.getString("y").toDouble()
                         val lng = documentObj.getString("x").toDouble()
 
-                        val placeData = PlaceData(placeName, lat, lng)
+                        val placeData = PlaceData(0,placeName, lat, lng)
                         placeList.add(placeData)
                     }
 
@@ -360,7 +360,7 @@ class EdtAppointmentActivity : BaseActivity() {
 
                 val inputPlace = binding.edtPlace.text.toString()
 
-                val placeData = PlaceData(inputPlace,latLng.latitude,latLng.longitude)
+                val placeData = PlaceData(0,inputPlace,latLng.latitude,latLng.longitude)
 
                 setPlaceDataToNaverMap(placeData )
 
